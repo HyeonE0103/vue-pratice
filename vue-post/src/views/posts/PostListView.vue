@@ -11,20 +11,40 @@
       ></PostItem>
     </div>
   </div>
+  <hr class="my-4" />
+  <AppCard>
+    <PostDetailView :id="3" />
+  </AppCard>
 </template>
 
 <script setup>
 import { getPosts } from '@/api/posts'
 import PostItem from '@/components/posts/PostItem.vue'
+import AppCard from '@/components/AppCard.vue'
+import PostDetailView from '@/views/posts/PostDetailView.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
 const posts = ref([])
-const fetchPosts = () => {
-  posts.value = getPosts()
+
+const fetchPosts = async () => {
+  // getPosts()
+  //   .then((res) => {
+  //     posts.value = res.data
+  //   })
+  //   .catch((err) => {
+  //     console.error(err)
+  //   })
+
+  try {
+    const { data } = await getPosts()
+    posts.value = data
+  } catch (error) {
+    console.log(error)
+  }
 }
+
 fetchPosts()
 
 const goPage = (id) => {
